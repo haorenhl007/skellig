@@ -11,18 +11,12 @@ MainWindow::MainWindow(QWidget* parent) :
 {
     ui->setupUi(this);
     view = new GLWidget(ui->centralWidget);
-    ui->verticalLayout->insertWidget(0, view);
+    ui->centralLayout->insertWidget(0, view, 1);
 
     QAction* openAction = ui->fileMenu->addAction("Ouvrir un modèle...");
     connect(openAction, &QAction::triggered, this, &MainWindow::openFileDialog);
 
-    connect(ui->rotateSlider, &QSlider::sliderMoved,
-            view, &GLWidget::setModelAngle);
-
-    connect(ui->cameraSlider, &QSlider::sliderMoved,
-            view, &GLWidget::setCameraX);
-
-    connect(ui->checkBox, &QCheckBox::toggled,
+    connect(ui->wireframeBox, &QCheckBox::toggled,
             view, &GLWidget::setPolygonMode);
 }
 
@@ -32,8 +26,10 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::openFileDialog() {
-    QString filename = QFileDialog::getOpenFileName(this, "Ouvrir un modèle", QDir::homePath(), "Modèles (*.dae *.obj)");
+    QString directory = (lastFilePath.length() > 0) ? lastFilePath : QDir::homePath();
+    QString filename = QFileDialog::getOpenFileName(this, "Ouvrir un modèle", directory, "Modèles (*.dae *.obj)");
     if (!filename.isNull()) {
+        lastFilePath = filename;
         view->loadModel(filename);
     }
 }

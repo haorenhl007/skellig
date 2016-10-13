@@ -3,7 +3,7 @@
 GLWidget::GLWidget(QWidget* parent) :
     QOpenGLWidget(parent),
     m_model(0),
-    m_camera(20.0f, 20.0f, 0.0f, 0.0f, 20.0f, 0.0f),
+    m_camera(20.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f),
     m_timer(0),
     m_program(0)
 {
@@ -63,13 +63,43 @@ void GLWidget::loadModel(QString filename) {
     doneCurrent();
 }
 
-void GLWidget::setCameraX(int value) {
-    m_camera.setPositionX(value);
+void GLWidget::wheelEvent(QWheelEvent* event) {
+    float x = m_camera.position().x();
+    x = qBound(0.0f, x - event->angleDelta().y() / 60.0f, 500.0f);
+
+    m_camera.setPositionX(x);
+    event->accept();
 }
 
-void GLWidget::setModelAngle(int value) {
-    m_modelMat.setToIdentity();
-    m_modelMat.rotate(value, 0.0f, 1.0f, 0.0f);
+void GLWidget::mouseMoveEvent(QMouseEvent* event) {
+    Qt::MouseButtons buttons = event->buttons();
+
+    if (buttons & Qt::LeftButton) {
+        if (m_lastMousePos.isNull()) {
+            m_lastMousePos = event->pos();
+        }
+        else {
+            QPoint offset = event->pos() - m_lastMousePos;
+            m_modelMat.rotate((float)offset.x(), 0.0f, 1.0f, 0.0f);
+            m_lastMousePos = event->pos();
+        }
+    }
+    else if (buttons & Qt::MidButton) {
+        if (m_lastMousePos.isNull()) {
+            m_lastMousePos = event->pos();
+        }
+        else {
+            QPoint offset = event->pos() - m_lastMousePos;
+            m_modelMat.translate(0, -offset.y(), 0);
+            m_lastMousePos = event->pos();
+        }
+    }
+    event->accept();
+}
+
+void GLWidget::mouseReleaseEvent(QMouseEvent* event) {
+    m_lastMousePos = QPoint();
+    event->accept();
 }
 
 void GLWidget::setPolygonMode(bool wireframe) {

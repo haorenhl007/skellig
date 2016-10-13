@@ -6,6 +6,8 @@
 #include <QOpenGLWidget>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLFunctions_3_3_Core>
+#include <QWheelEvent>
+#include <QMouseEvent>
 
 #include "model.h"
 #include "camera.h"
@@ -20,8 +22,6 @@ public:
     void loadModel(QString filename);
 
 public slots:
-    void setCameraX(int value);
-    void setModelAngle(int value);
     void setPolygonMode(bool wireframe);
 
 protected:
@@ -29,12 +29,18 @@ protected:
     void resizeGL(int w, int h);
     void paintGL();
 
+    void wheelEvent(QWheelEvent* event);
+    void mouseMoveEvent(QMouseEvent* event);
+    void mouseReleaseEvent(QMouseEvent* event);
+
+private:
     Model* m_model;
     QMatrix4x4 m_modelMat;
     QMatrix4x4 m_projectionMat;
 
     Camera m_camera;
     QTimer* m_timer;
+    QPoint m_lastMousePos;
 
     QOpenGLShaderProgram* m_program;
 };

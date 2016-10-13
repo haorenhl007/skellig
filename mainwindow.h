@@ -21,6 +21,7 @@ public slots:
 private:
     Ui::MainWindow* ui;
     GLWidget* view;
+    QString lastFilePath;
 };
 
 #endif // MAINWINDOW_H
