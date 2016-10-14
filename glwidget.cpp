@@ -65,7 +65,7 @@ void GLWidget::loadModel(QString filename) {
 
 void GLWidget::wheelEvent(QWheelEvent* event) {
     float x = m_camera.position().x();
-    x = qBound(0.0f, x - event->angleDelta().y() / 60.0f, 500.0f);
+    x = qBound(0.0f, x - event->angleDelta().y() / 30.0f, 500.0f);
 
     m_camera.setPositionX(x);
     event->accept();
@@ -90,7 +90,8 @@ void GLWidget::mouseMoveEvent(QMouseEvent* event) {
         }
         else {
             QPoint offset = event->pos() - m_lastMousePos;
-            m_modelMat.translate(0, -offset.y(), 0);
+            m_camera.setPositionY(m_camera.position().y() + offset.y() / 2.0f);
+            m_camera.setTargetY(m_camera.target().y() + offset.y() / 2.0f);
             m_lastMousePos = event->pos();
         }
     }

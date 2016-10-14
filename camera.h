@@ -19,6 +19,13 @@ public:
     void setPositionZ(float z);
     void setPosition(float x, float y, float z);
 
+    void setTargetX(float x);
+    void setTargetY(float y);
+    void setTargetZ(float z);
+    void setTarget(float x, float y, float z);
+
+    void setWorldUp(QVector3D& worldUp);
+
 private:
     QVector3D m_position;
     QVector3D m_target;
