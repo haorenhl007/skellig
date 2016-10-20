@@ -12,6 +12,10 @@ Mesh::~Mesh() {
     m_indexBuffer.destroy();
     m_vertexBuffer.destroy();
 
+    for(int i = 0; i < bones.size(); i++) {
+        delete bones[i];
+    }
+
     for(int i = 0; i < textures.size(); i++) {
         delete textures[i];
     }

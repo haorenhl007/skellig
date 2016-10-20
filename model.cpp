@@ -73,6 +73,30 @@ void Model::processMesh(aiMesh* source, Mesh* mesh, const aiScene* scene) {
             mesh->indices.append(face.mIndices[j]);
     }
 
+    for(unsigned int i = 0; i < source->mNumBones; i++) {
+        Bone* bone = new Bone;
+
+        aiBone* sBone = source->mBones[i];
+        bone->name = sBone->mName.C_Str();
+
+        aiMatrix4x4 om = sBone->mOffsetMatrix;
+        bone->offsetMatrix = QMatrix4x4(
+                    om.a1, om.a2, om.a3, om.a4,
+                    om.b1, om.b2, om.b3, om.b4,
+                    om.c1, om.c2, om.c3, om.c4,
+                    om.d1, om.d2, om.d3, om.d4
+                    );
+
+        for(unsigned int j = 0; j < sBone->mNumWeights; j++) {
+            VertexWeight vw;
+            vw.vertexIndex = sBone->mWeights[i].mVertexId;
+            vw.weight = sBone->mWeights[i].mWeight;
+            bone->weights.append(vw);
+        }
+
+        mesh->bones.append(bone);
+    }
+
     aiMaterial* material = scene->mMaterials[source->mMaterialIndex];
     loadTextures(mesh, material, aiTextureType_DIFFUSE);
 }

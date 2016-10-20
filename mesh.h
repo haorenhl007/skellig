@@ -17,6 +17,17 @@ struct Vertex {
     QVector2D texCoords;
 };
 
+struct VertexWeight {
+    unsigned int vertexIndex;
+    float weight;
+};
+
+struct Bone {
+    QString name;
+    QMatrix4x4 offsetMatrix;
+    QVector<VertexWeight> weights;
+};
+
 class Mesh {
 public:
     Mesh();
@@ -26,6 +37,7 @@ public:
 
     QVector<Vertex> vertices;
     QVector<unsigned int> indices;
+    QVector<Bone*> bones;
     QVector<QOpenGLTexture*> textures;
 
 private:

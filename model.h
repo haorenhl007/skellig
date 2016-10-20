@@ -22,11 +22,6 @@ struct Node {
     QVector<unsigned int> meshes;
 };
 
-struct Bone {
-    QString name;
-
-};
-
 class Model {
 public:
     Model(QString filename, QOpenGLFunctions_3_3_Core* context);
