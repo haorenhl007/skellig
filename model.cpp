@@ -96,8 +96,16 @@ void Model::loadTextures(Mesh* mesh, aiMaterial* material, aiTextureType type) {
     }
 }
 
-void Model::draw(QOpenGLFunctions_3_3_Core* context) {
-    for(int i = 0; i < m_meshes.size(); i++) {
-        m_meshes[i]->draw(context);
+void Model::draw(QOpenGLFunctions_3_3_Core* context, QOpenGLShaderProgram* program) {
+    drawNode(m_rootNode, QMatrix4x4(), context, program);
+}
+
+void Model::drawNode(Node* node, QMatrix4x4 transform, QOpenGLFunctions_3_3_Core* context, QOpenGLShaderProgram* program) {
+    program->setUniformValue("node", node->transformation * transform);
+    for(int i = 0; i < node->meshes.size(); i++) {
+        m_meshes[node->meshes[i]]->draw(context);
+    }
+    for(int i = 0; i < node->children.size(); i++) {
+        drawNode(node->children[i], node->transformation * transform, context, program);
     }
 }

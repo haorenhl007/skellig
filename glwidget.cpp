@@ -51,7 +51,7 @@ void GLWidget::paintGL() {
     m_program->setUniformValue("projection", m_projectionMat);
 
     if (m_model != 0)
-        m_model->draw(this);
+        m_model->draw(this, m_program);
 }
 
 void GLWidget::loadModel(QString filename) {

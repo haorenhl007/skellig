@@ -22,22 +22,17 @@ struct Node {
     QVector<unsigned int> meshes;
 };
 
-struct Bone {
-    QString name;
-
-};
-
 class Model {
 public:
     Model(QString filename, QOpenGLFunctions_3_3_Core* context);
     ~Model();
-    void draw(QOpenGLFunctions_3_3_Core* context);
+    void draw(QOpenGLFunctions_3_3_Core* context, QOpenGLShaderProgram* program);
 
 private:
+    void drawNode(Node* node, QMatrix4x4 transform, QOpenGLFunctions_3_3_Core* context, QOpenGLShaderProgram* program);
     void processNode(QOpenGLFunctions_3_3_Core* context, aiNode* source, Node* node, const aiScene* scene);
     void processMesh(aiMesh* source, Mesh* mesh, const aiScene* scene);
     void loadTextures(Mesh* mesh, aiMaterial* material, aiTextureType type);
-
 
     Node* m_rootNode;
     QFileInfo m_fileInfo;
