@@ -96,8 +96,8 @@ void GLWidget::mouseMoveEvent(QMouseEvent* event) {
         }
         else {
             QPoint offset = event->pos() - m_lastMousePos;
-            m_camera.setPositionY(m_camera.position().y() + offset.y() / 2.0f);
-            m_camera.setTargetY(m_camera.target().y() + offset.y() / 2.0f);
+            m_camera.setPositionY(m_camera.position().y() + offset.y() / 4.0f);
+            m_camera.setTargetY(m_camera.target().y() + offset.y() / 4.0f);
             m_lastMousePos = event->pos();
         }
     }
