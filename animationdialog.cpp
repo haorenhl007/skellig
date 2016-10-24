@@ -65,9 +65,12 @@ void AnimationDialog::rotateX(double angle) {
         Node* node = nodeMap.value(item);
         node->transformation.setToIdentity();
 
-        node->transformation.rotate(angle, 1.0f, 0.0f, 0.0f);
-        node->transformation.rotate(ui->ySpinBox->value(), 0.0f, 1.0f, 0.0f);
-        node->transformation.rotate(ui->zSpinBox->value(), 0.0f, 0.0f, 1.0f);
+        QQuaternion rotX = QQuaternion::fromAxisAndAngle(1.0f, 0.0f, 0.0f, angle);
+        QQuaternion rotY = QQuaternion::fromAxisAndAngle(0.0f, 1.0f, 0.0f, ui->ySpinBox->value());
+        QQuaternion rotZ = QQuaternion::fromAxisAndAngle(0.0f, 0.0f, 1.0f, ui->zSpinBox->value());
+
+        QQuaternion total = rotX * rotY * rotZ;
+        node->transformation.rotate(total);
     }
 }
 
@@ -77,9 +80,12 @@ void AnimationDialog::rotateY(double angle) {
         Node* node = nodeMap.value(item);
         node->transformation.setToIdentity();
 
-        node->transformation.rotate(ui->xSpinBox->value(), 1.0f, 0.0f, 0.0f);
-        node->transformation.rotate(angle, 0.0f, 1.0f, 0.0f);
-        node->transformation.rotate(ui->zSpinBox->value(), 0.0f, 0.0f, 1.0f);
+        QQuaternion rotX = QQuaternion::fromAxisAndAngle(1.0f, 0.0f, 0.0f, ui->xSpinBox->value());
+        QQuaternion rotY = QQuaternion::fromAxisAndAngle(0.0f, 1.0f, 0.0f, angle);
+        QQuaternion rotZ = QQuaternion::fromAxisAndAngle(0.0f, 0.0f, 1.0f, ui->zSpinBox->value());
+
+        QQuaternion total = rotX * rotY * rotZ;
+        node->transformation.rotate(total);
     }
 }
 
@@ -89,8 +95,11 @@ void AnimationDialog::rotateZ(double angle) {
         Node* node = nodeMap.value(item);
         node->transformation.setToIdentity();
 
-        node->transformation.rotate(ui->xSpinBox->value(), 1.0f, 0.0f, 0.0f);
-        node->transformation.rotate(ui->ySpinBox->value(), 0.0f, 1.0f, 0.0f);
-        node->transformation.rotate(angle, 0.0f, 0.0f, 1.0f);
+        QQuaternion rotX = QQuaternion::fromAxisAndAngle(1.0f, 0.0f, 0.0f, ui->xSpinBox->value());
+        QQuaternion rotY = QQuaternion::fromAxisAndAngle(0.0f, 1.0f, 0.0f, ui->ySpinBox->value());
+        QQuaternion rotZ = QQuaternion::fromAxisAndAngle(0.0f, 0.0f, 1.0f, angle);
+
+        QQuaternion total = rotX * rotY * rotZ;
+        node->transformation.rotate(total);
     }
 }

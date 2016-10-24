@@ -4,6 +4,7 @@
 #include <QMap>
 #include <QList>
 #include <QDialog>
+#include <QQuaternion>
 #include <QStringList>
 #include <QTreeWidgetItem>
 #include "model.h"
