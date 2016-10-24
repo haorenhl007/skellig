@@ -7,9 +7,9 @@ AnimationDialog::AnimationDialog(QWidget* parent) :
     model(0)
 {
     ui->setupUi(this);
-    connect(ui->xSpinBox, SIGNAL(valueChanged(int)), this, SLOT(rotateX(int)));
-    connect(ui->ySpinBox, SIGNAL(valueChanged(int)), this, SLOT(rotateY(int)));
-    connect(ui->zSpinBox, SIGNAL(valueChanged(int)), this, SLOT(rotateZ(int)));
+    connect(ui->xSpinBox, SIGNAL(valueChanged(double)), this, SLOT(rotateX(double)));
+    connect(ui->ySpinBox, SIGNAL(valueChanged(double)), this, SLOT(rotateY(double)));
+    connect(ui->zSpinBox, SIGNAL(valueChanged(double)), this, SLOT(rotateZ(double)));
 
     connect(ui->treeWidget, &QTreeWidget::currentItemChanged, this, &AnimationDialog::activeItemChanged);
 }
@@ -59,7 +59,7 @@ void AnimationDialog::activeItemChanged(QTreeWidgetItem* current, QTreeWidgetIte
     ui->zSpinBox->setValue(0);
 }
 
-void AnimationDialog::rotateX(int angle) {
+void AnimationDialog::rotateX(double angle) {
     QTreeWidgetItem* item = ui->treeWidget->currentItem();
     if(item && model != 0) {
         Node* node = nodeMap.value(item);
@@ -71,7 +71,7 @@ void AnimationDialog::rotateX(int angle) {
     }
 }
 
-void AnimationDialog::rotateY(int angle) {
+void AnimationDialog::rotateY(double angle) {
     QTreeWidgetItem* item = ui->treeWidget->currentItem();
     if(item && model != 0) {
         Node* node = nodeMap.value(item);
@@ -83,7 +83,7 @@ void AnimationDialog::rotateY(int angle) {
     }
 }
 
-void AnimationDialog::rotateZ(int angle) {
+void AnimationDialog::rotateZ(double angle) {
     QTreeWidgetItem* item = ui->treeWidget->currentItem();
     if(item && model != 0) {
         Node* node = nodeMap.value(item);

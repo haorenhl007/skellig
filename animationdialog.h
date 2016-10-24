@@ -24,9 +24,9 @@ public slots:
     void resetAll();
     void activeItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous);
 
-    void rotateX(int angle);
-    void rotateY(int angle);
-    void rotateZ(int angle);
+    void rotateX(double angle);
+    void rotateY(double angle);
+    void rotateZ(double angle);
 
 private:
     void loadTree(Node* parentNode, QTreeWidgetItem* parentItem);
