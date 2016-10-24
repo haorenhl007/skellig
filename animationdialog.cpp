@@ -14,10 +14,24 @@ AnimationDialog::~AnimationDialog() {
 }
 
 void AnimationDialog::loadNodes(Model* model) {
-    new QListWidgetItem(model->rootNode->name, ui->listWidget);
+    Node* rootNode = model->rootNode;
+    QTreeWidgetItem* rootItem = new QTreeWidgetItem(ui->treeWidget, QStringList(rootNode->name));
+
+    nodeMap.insert(rootItem, rootNode);
+    loadTree(rootNode, rootItem);
+}
+
+void AnimationDialog::loadTree(Node* parentNode, QTreeWidgetItem* parentItem) {
+    for(int i = 0; i < parentNode->children.size(); i++) {
+        Node* childNode = parentNode->children[i];
+        QTreeWidgetItem* childItem = new QTreeWidgetItem(parentItem, QStringList(childNode->name));
+
+        nodeMap.insert(childItem, childNode);
+        loadTree(childNode, childItem);
+    }
 }
 
 void AnimationDialog::resetAll() {
     model = 0;
-    ui->listWidget->clear();
+    ui->treeWidget->clear();
 }

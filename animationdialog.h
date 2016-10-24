@@ -1,8 +1,11 @@
 #ifndef ANIMATIONDIALOG_H
 #define ANIMATIONDIALOG_H
 
+#include <QMap>
+#include <QList>
 #include <QDialog>
-#include <QListWidgetItem>
+#include <QStringList>
+#include <QTreeWidgetItem>
 #include "model.h"
 
 namespace Ui {
@@ -21,8 +24,11 @@ public slots:
     void resetAll();
 
 private:
+    void loadTree(Node* parentNode, QTreeWidgetItem* parentItem);
+
     Ui::AnimationDialog* ui;
     Model* model;
+    QMap<QTreeWidgetItem*, Node*> nodeMap;
 };
 
 #endif // ANIMATIONDIALOG_H
