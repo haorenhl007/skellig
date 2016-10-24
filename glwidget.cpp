@@ -14,6 +14,7 @@ GLWidget::~GLWidget() {
     makeCurrent();
 
     delete m_model;
+    emit modelDeleted();
     delete m_program;
 
     doneCurrent();
@@ -50,7 +51,7 @@ void GLWidget::paintGL() {
     m_program->setUniformValue("view", viewMat);
     m_program->setUniformValue("projection", m_projectionMat);
 
-    if (m_model != 0)
+    if (m_model != 0 && m_model->rootNode != 0)
         m_model->draw(this, m_program);
 }
 
@@ -58,9 +59,14 @@ void GLWidget::loadModel(QString filename) {
     makeCurrent();
     if (m_model != 0) {
         delete m_model;
+        emit modelDeleted();
     }
+
     m_model = new Model(filename, this);
     doneCurrent();
+
+    if(m_model->rootNode != 0)
+        emit modelLoaded(m_model);
 }
 
 void GLWidget::wheelEvent(QWheelEvent* event) {

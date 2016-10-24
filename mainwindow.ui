@@ -24,6 +24,13 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QCheckBox" name="settingsCheckBox">
+        <property name="text">
+         <string>Options d'animation</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
    </layout>

@@ -16,15 +16,18 @@ SOURCES     +=  main.cpp \
                 glwidget.cpp \
                 camera.cpp \
                 model.cpp \
-                mesh.cpp
+                mesh.cpp \
+                animationdialog.cpp
 
 HEADERS     +=  mainwindow.h \
                 glwidget.h \
                 camera.h \
                 model.h \
-                mesh.h
+                mesh.h \
+                animationdialog.h
 
-FORMS       +=  mainwindow.ui
+FORMS       +=  mainwindow.ui \
+                animationdialog.ui
 
 DISTFILES   +=  shader.vert \
                 shader.frag

@@ -24,6 +24,10 @@ public:
 public slots:
     void setPolygonMode(bool wireframe);
 
+signals:
+    void modelLoaded(Model* model);
+    void modelDeleted();
+
 protected:
     void initializeGL();
     void resizeGL(int w, int h);

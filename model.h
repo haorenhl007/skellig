@@ -27,6 +27,7 @@ public:
     Model(QString filename, QOpenGLFunctions_3_3_Core* context);
     ~Model();
     void draw(QOpenGLFunctions_3_3_Core* context, QOpenGLShaderProgram* program);
+    Node* rootNode;
 
 private:
     void drawNode(Node* node, QMatrix4x4 transform, QOpenGLFunctions_3_3_Core* context, QOpenGLShaderProgram* program);
@@ -34,7 +35,6 @@ private:
     void processMesh(aiMesh* source, Mesh* mesh, const aiScene* scene);
     void loadTextures(Mesh* mesh, aiMaterial* material, aiTextureType type);
 
-    Node* m_rootNode;
     QFileInfo m_fileInfo;
     QVector<Mesh*> m_meshes;
 };

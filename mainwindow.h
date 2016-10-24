@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "glwidget.h"
+#include "animationdialog.h"
 
 namespace Ui {
     class MainWindow;
@@ -21,6 +22,7 @@ public slots:
 private:
     Ui::MainWindow* ui;
     GLWidget* view;
+    AnimationDialog* animationDialog;
     QString lastFilePath;
 };
 

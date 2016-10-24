@@ -7,7 +7,7 @@ Node::~Node() {
 }
 
 Model::Model(QString filename, QOpenGLFunctions_3_3_Core* context) :
-    m_rootNode(0),
+    rootNode(0),
     m_fileInfo(filename)
 {
     Assimp::Importer importer;
@@ -21,12 +21,12 @@ Model::Model(QString filename, QOpenGLFunctions_3_3_Core* context) :
         return;
     }
 
-    m_rootNode = new Node;
-    processNode(context, scene->mRootNode, m_rootNode, scene);
+    rootNode = new Node;
+    processNode(context, scene->mRootNode, rootNode, scene);
 }
 
 Model::~Model() {
-    delete m_rootNode;
+    delete rootNode;
     for(int i = 0; i < m_meshes.size(); i++) {
         delete m_meshes[i];
     }
@@ -97,7 +97,7 @@ void Model::loadTextures(Mesh* mesh, aiMaterial* material, aiTextureType type) {
 }
 
 void Model::draw(QOpenGLFunctions_3_3_Core* context, QOpenGLShaderProgram* program) {
-    drawNode(m_rootNode, QMatrix4x4(), context, program);
+    drawNode(rootNode, QMatrix4x4(), context, program);
 }
 
 void Model::drawNode(Node* node, QMatrix4x4 transform, QOpenGLFunctions_3_3_Core* context, QOpenGLShaderProgram* program) {

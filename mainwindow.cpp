@@ -18,11 +18,23 @@ MainWindow::MainWindow(QWidget* parent) :
 
     connect(ui->wireframeBox, &QCheckBox::toggled,
             view, &GLWidget::setPolygonMode);
+
+    animationDialog = new AnimationDialog(this);
+
+    connect(ui->settingsCheckBox, &QCheckBox::toggled,
+            animationDialog, &AnimationDialog::setVisible);
+
+    connect(view, &GLWidget::modelLoaded,
+            animationDialog, &AnimationDialog::loadNodes);
+
+    connect(view, &GLWidget::modelDeleted,
+            animationDialog, &AnimationDialog::resetAll);
 }
 
 MainWindow::~MainWindow() {
     delete ui;
     delete view;
+    delete animationDialog;
 }
 
 void MainWindow::openFileDialog() {
