@@ -45,6 +45,7 @@ void GLWidget::paintGL() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     QMatrix4x4 viewMat = m_camera.view();
+    emit aboutToDraw();
 
     m_program->bind();
     m_program->setUniformValue("model", m_modelMat);

@@ -35,23 +35,29 @@
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="1">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Rotation Y</string>
+     <item row="1" column="2">
+      <widget class="QDoubleSpinBox" name="zSpinBox">
+       <property name="minimum">
+        <double>-180.000000000000000</double>
        </property>
-       <property name="buddy">
-        <cstring>ySpinBox</cstring>
+       <property name="maximum">
+        <double>180.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>2.000000000000000</double>
        </property>
       </widget>
      </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>Rotation Z</string>
+     <item row="1" column="1">
+      <widget class="QDoubleSpinBox" name="ySpinBox">
+       <property name="minimum">
+        <double>-180.000000000000000</double>
        </property>
-       <property name="buddy">
-        <cstring>zSpinBox</cstring>
+       <property name="maximum">
+        <double>180.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>2.000000000000000</double>
        </property>
       </widget>
      </item>
@@ -78,33 +84,34 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QDoubleSpinBox" name="ySpinBox">
-       <property name="minimum">
-        <double>-180.000000000000000</double>
+     <item row="0" column="2">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Rotation Z</string>
        </property>
-       <property name="maximum">
-        <double>180.000000000000000</double>
-       </property>
-       <property name="singleStep">
-        <double>2.000000000000000</double>
+       <property name="buddy">
+        <cstring>zSpinBox</cstring>
        </property>
       </widget>
      </item>
-     <item row="1" column="2">
-      <widget class="QDoubleSpinBox" name="zSpinBox">
-       <property name="minimum">
-        <double>-180.000000000000000</double>
+     <item row="0" column="1">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Rotation Y</string>
        </property>
-       <property name="maximum">
-        <double>180.000000000000000</double>
-       </property>
-       <property name="singleStep">
-        <double>2.000000000000000</double>
+       <property name="buddy">
+        <cstring>ySpinBox</cstring>
        </property>
       </widget>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QPushButton" name="playButton">
+     <property name="text">
+      <string>Interpolation</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

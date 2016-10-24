@@ -12,10 +12,23 @@ AnimationDialog::AnimationDialog(QWidget* parent) :
     connect(ui->zSpinBox, SIGNAL(valueChanged(double)), this, SLOT(rotateZ(double)));
 
     connect(ui->treeWidget, &QTreeWidget::currentItemChanged, this, &AnimationDialog::activeItemChanged);
+    connect(ui->playButton, &QPushButton::pressed, this, &AnimationDialog::play);
 }
 
 AnimationDialog::~AnimationDialog() {
     delete ui;
+}
+
+void AnimationDialog::updateAnimation() {
+    QTreeWidgetItem* item = ui->treeWidget->currentItem();
+
+    if(item && model != 0) {
+        Node* node = nodeMap.value(item);
+        node->transformation.setToIdentity();
+
+        currentRotation = QQuaternion::slerp(currentRotation, aimedRotation, 0.1);
+        node->transformation.rotate(currentRotation);
+    }
 }
 
 void AnimationDialog::loadNodes(Model* model) {
@@ -40,7 +53,13 @@ void AnimationDialog::loadTree(Node* parentNode, QTreeWidgetItem* parentItem) {
 
 void AnimationDialog::resetAll() {
     model = 0;
+    currentRotation = QQuaternion();
+    aimedRotation = QQuaternion();
+
     ui->treeWidget->clear();
+    ui->xSpinBox->setValue(0);
+    ui->ySpinBox->setValue(0);
+    ui->zSpinBox->setValue(0);
 }
 
 void AnimationDialog::activeItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous) {
@@ -54,52 +73,39 @@ void AnimationDialog::activeItemChanged(QTreeWidgetItem* current, QTreeWidgetIte
         node->transformation.setToIdentity();
     }
 
+    currentRotation = QQuaternion();
+    aimedRotation = QQuaternion();
+
     ui->xSpinBox->setValue(0);
     ui->ySpinBox->setValue(0);
     ui->zSpinBox->setValue(0);
 }
 
 void AnimationDialog::rotateX(double angle) {
-    QTreeWidgetItem* item = ui->treeWidget->currentItem();
-    if(item && model != 0) {
-        Node* node = nodeMap.value(item);
-        node->transformation.setToIdentity();
+    QQuaternion rotX = QQuaternion::fromAxisAndAngle(1.0f, 0.0f, 0.0f, angle);
+    QQuaternion rotY = QQuaternion::fromAxisAndAngle(0.0f, 1.0f, 0.0f, ui->ySpinBox->value());
+    QQuaternion rotZ = QQuaternion::fromAxisAndAngle(0.0f, 0.0f, 1.0f, ui->zSpinBox->value());
 
-        QQuaternion rotX = QQuaternion::fromAxisAndAngle(1.0f, 0.0f, 0.0f, angle);
-        QQuaternion rotY = QQuaternion::fromAxisAndAngle(0.0f, 1.0f, 0.0f, ui->ySpinBox->value());
-        QQuaternion rotZ = QQuaternion::fromAxisAndAngle(0.0f, 0.0f, 1.0f, ui->zSpinBox->value());
-
-        QQuaternion total = rotX * rotY * rotZ;
-        node->transformation.rotate(total);
-    }
+    fieldRotation = rotX * rotY * rotZ;
 }
 
 void AnimationDialog::rotateY(double angle) {
-    QTreeWidgetItem* item = ui->treeWidget->currentItem();
-    if(item && model != 0) {
-        Node* node = nodeMap.value(item);
-        node->transformation.setToIdentity();
+    QQuaternion rotX = QQuaternion::fromAxisAndAngle(1.0f, 0.0f, 0.0f, ui->xSpinBox->value());
+    QQuaternion rotY = QQuaternion::fromAxisAndAngle(0.0f, 1.0f, 0.0f, angle);
+    QQuaternion rotZ = QQuaternion::fromAxisAndAngle(0.0f, 0.0f, 1.0f, ui->zSpinBox->value());
 
-        QQuaternion rotX = QQuaternion::fromAxisAndAngle(1.0f, 0.0f, 0.0f, ui->xSpinBox->value());
-        QQuaternion rotY = QQuaternion::fromAxisAndAngle(0.0f, 1.0f, 0.0f, angle);
-        QQuaternion rotZ = QQuaternion::fromAxisAndAngle(0.0f, 0.0f, 1.0f, ui->zSpinBox->value());
-
-        QQuaternion total = rotX * rotY * rotZ;
-        node->transformation.rotate(total);
-    }
+    fieldRotation = rotX * rotY * rotZ;
 }
 
 void AnimationDialog::rotateZ(double angle) {
-    QTreeWidgetItem* item = ui->treeWidget->currentItem();
-    if(item && model != 0) {
-        Node* node = nodeMap.value(item);
-        node->transformation.setToIdentity();
+    QQuaternion rotX = QQuaternion::fromAxisAndAngle(1.0f, 0.0f, 0.0f, ui->xSpinBox->value());
+    QQuaternion rotY = QQuaternion::fromAxisAndAngle(0.0f, 1.0f, 0.0f, ui->ySpinBox->value());
+    QQuaternion rotZ = QQuaternion::fromAxisAndAngle(0.0f, 0.0f, 1.0f, angle);
 
-        QQuaternion rotX = QQuaternion::fromAxisAndAngle(1.0f, 0.0f, 0.0f, ui->xSpinBox->value());
-        QQuaternion rotY = QQuaternion::fromAxisAndAngle(0.0f, 1.0f, 0.0f, ui->ySpinBox->value());
-        QQuaternion rotZ = QQuaternion::fromAxisAndAngle(0.0f, 0.0f, 1.0f, angle);
+    fieldRotation = rotX * rotY * rotZ;
+}
 
-        QQuaternion total = rotX * rotY * rotZ;
-        node->transformation.rotate(total);
-    }
+void AnimationDialog::play() {
+    currentRotation = QQuaternion();
+    aimedRotation = fieldRotation;
 }

@@ -29,6 +29,9 @@ MainWindow::MainWindow(QWidget* parent) :
 
     connect(view, &GLWidget::modelDeleted,
             animationDialog, &AnimationDialog::resetAll);
+
+    connect(view, &GLWidget::aboutToDraw,
+            animationDialog, &AnimationDialog::updateAnimation);
 }
 
 MainWindow::~MainWindow() {

@@ -27,6 +27,7 @@ public slots:
 signals:
     void modelLoaded(Model* model);
     void modelDeleted();
+    void aboutToDraw();
 
 protected:
     void initializeGL();

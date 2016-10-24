@@ -20,6 +20,8 @@ public:
     explicit AnimationDialog(QWidget* parent = 0);
     ~AnimationDialog();
 
+    void updateAnimation();
+
 public slots:
     void loadNodes(Model* model);
     void resetAll();
@@ -29,12 +31,18 @@ public slots:
     void rotateY(double angle);
     void rotateZ(double angle);
 
+    void play();
+
 private:
     void loadTree(Node* parentNode, QTreeWidgetItem* parentItem);
 
     Ui::AnimationDialog* ui;
     Model* model;
     QMap<QTreeWidgetItem*, Node*> nodeMap;
+
+    QQuaternion fieldRotation;
+    QQuaternion aimedRotation;
+    QQuaternion currentRotation;
 };
 
 #endif // ANIMATIONDIALOG_H
